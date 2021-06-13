@@ -9,8 +9,11 @@ export class AuthService {
 
   user: Observable<firebase.default.User | null> | undefined
   userId: any = null;
+  userEmail: any = null;
 
-  constructor(private auth: AngularFireAuth) { }
+  constructor(private auth: AngularFireAuth) {
+    this.user = this.auth.user
+   }
 
   signup(email: string, password: string){
     return this.auth.createUserWithEmailAndPassword(email, password)
@@ -19,7 +22,7 @@ export class AuthService {
     return this.auth.signInWithEmailAndPassword(email, password)
   }
 
-  signout(){
+  logout(){
     return this.auth.signOut()
   }
 }

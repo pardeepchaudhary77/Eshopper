@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,8 +10,9 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent implements OnInit {
 
   isUser: boolean = false;
+  displayName: any
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private accountService: AccountService) { }
 
   ngOnInit(): void {
 
@@ -18,16 +20,24 @@ export class HeaderComponent implements OnInit {
       if(user){
         this.isUser = true
         this.auth.userId = user.uid
+
+        localStorage.setItem('user', JSON.stringify(this.displayName));
       }
       else {
         this.isUser = false
         this.auth.userId = ''
+
+        localStorage.setItem('user', '');
       }
     })
+
+    //get user display name
+    //this.accountService.getDisplayName().subscribe(data => this.displayName = data)
   }
 
   logout(){
-    this.auth.signout()
+    this.auth.logout()
+    localStorage.removeItem('user')
   }
 
 }

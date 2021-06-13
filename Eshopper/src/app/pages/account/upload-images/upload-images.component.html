@@ -1,0 +1,29 @@
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li><a routerLink="../addProduct">Products</a></li>
+        <li><a routerLink="../addCategory">Categories</a></li>
+        <li><a routerLink="../addBrands">Brands</a></li>
+        <li class="active"><a routerLink="../uploadImages">Images</a></li>
+      </ul>
+      <br/><br/>
+    <form [formGroup]="form" class="row">
+        <div class="form-group col-sm-6">
+        <label class="form-label" for="customFile">Upload Images</label>
+        <input type="file" accept="*.png.jpg.jpeg" multiple #image formControlName="image" (change)="uploadFile($event)" class="form-control" id="customFile" />
+        <div class="text-danger" style="margin-bottom: 10px;" 
+            *ngIf="form.controls['image'].invalid && (form.controls['image'].touched || form.controls['image'].dirty)">
+            <div *ngIf="form.controls['image'].errors?.required">Images is required field</div>
+        </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-sm-3 allImages" *ngFor="let image of images">
+            <img [src]="image.imgPath" style="width: 100%;" class="img-thumbnail" alt="Cinque Terre">
+            <i class="fa fa fa-trash-o deleteimg" title="Delete"></i>
+        </div>
+    </div>
+    
+</div>
+<br/><br/><br/>

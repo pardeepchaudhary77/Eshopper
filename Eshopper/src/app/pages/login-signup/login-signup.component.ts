@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -13,7 +14,10 @@ export class LoginSignupComponent implements OnInit {
   errorMsg: string = '' 
   errorMsg2: string = ''
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, 
+              private authService: AuthService,
+              private accountService: AccountService, 
+              private router: Router) { }
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -32,6 +36,7 @@ export class LoginSignupComponent implements OnInit {
   signup(form: any){
     this.authService.signup(form.value.email, form.value.password)
       .then(data => {
+        this.accountService.addUser(data.user?.uid, form.value.name) 
         this.errorMsg = '',
         this.router.navigate(['/'])
       }).catch(err => this.errorMsg = err)

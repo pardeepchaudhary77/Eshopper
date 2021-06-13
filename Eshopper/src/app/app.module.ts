@@ -10,8 +10,15 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage'
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { ReactiveFormsModule } from '@angular/forms';
+import { AccountComponent } from './pages/account/account.component';
+import { AddProductComponent } from './pages/account/add-product/add-product.component';
+import { AddCategoryComponent } from './pages/account/add-category/add-category.component';
+import { AddBrandsComponent } from './pages/account/add-brands/add-brands.component';
+import { DropzoneDirective } from './dropzone.directive';
+import { UploadImagesComponent } from './pages/account/upload-images/upload-images.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +27,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     HomeComponent,
     PageNotFoundComponent,
-    LoginSignupComponent
+    LoginSignupComponent,
+    AccountComponent,
+    AddProductComponent,
+    AddCategoryComponent,
+    AddBrandsComponent,
+    DropzoneDirective,
+    UploadImagesComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +51,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         }
     ),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

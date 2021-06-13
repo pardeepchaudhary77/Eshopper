@@ -6,14 +6,14 @@
                     <h2>Login to your account</h2>
                     <div class="alert alert-danger" *ngIf="errorMsg2">{{errorMsg2}}</div> 
                     <form [formGroup]="formLogin" (ngSubmit)="signin(formLogin)">
-                        <input type="email" placeholder="Email" formControlName="email" />
-                        <div class="text-danger" style="margin-bottom: 10px;" *ngIf="form.controls['email'].invalid && (form.controls['email'].touched || form.controls['email'].dirty)">
-                            <div *ngIf="form.controls['email'].errors?.required">Email is required field</div>
-                            <div *ngIf="form.controls['email'].errors?.email">Please Enter correct email address</div>
+                        <input type="email" placeholder="Email" formControlName="email" name="email" />
+                        <div class="text-danger" style="margin-bottom: 10px;" *ngIf="formLogin.controls['email'].invalid && (formLogin.controls['email'].touched || formLogin.controls['email'].dirty)">
+                            <div *ngIf="formLogin.controls['email'].errors?.required">Email is required field</div>
+                            <div *ngIf="formLogin.controls['email'].errors?.email">Please Enter correct email address</div>
                         </div>
-                        <input type="password" placeholder="Password" formControlName="password" />
-                        <div class="text-danger" style="margin-bottom: 10px;" *ngIf="form.controls['password'].invalid && (form.controls['password'].touched || form.controls['password'].dirty)">
-                            <div *ngIf="form.controls['password'].errors?.required">Password is required field</div>
+                        <input type="password" placeholder="Password" formControlName="password" name="password" />
+                        <div class="text-danger" style="margin-bottom: 10px;" *ngIf="formLogin.controls['password'].invalid && (formLogin.controls['password'].touched || formLogin.controls['password'].dirty)">
+                            <div *ngIf="formLogin.controls['password'].errors?.required">Password is required field</div>
                         </div>
                         <span>
                             <input type="checkbox" class="checkbox"> 
@@ -31,7 +31,7 @@
                     <h2>New User Signup!</h2>
                     <div class="alert alert-danger" *ngIf="errorMsg">{{errorMsg}}</div> 
                     <form [formGroup]="form" (ngSubmit)="signup(form)">
-                        <input type="text" formControlName="name" placeholder="Name"/>
+                        <input type="text" formControlName="name" name="name" placeholder="Name"/>
                         <div class="text-danger" style="margin-bottom: 10px;" *ngIf="form.controls['name'].invalid && (form.controls['name'].touched || form.controls['name'].dirty)">
                             <div *ngIf="form.controls['name'].errors?.required">Name is required field</div>
                         </div>

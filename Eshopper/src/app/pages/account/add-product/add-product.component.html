@@ -1,0 +1,116 @@
+<!-- Add new Product Start -->
+<div class="container">
+    
+    <ul class="nav nav-tabs">
+        <li class="active"><a routerLink="../addProduct">Products</a></li>
+        <li><a routerLink="../addCategory">Categories</a></li>
+        <li><a routerLink="../addBrands">Brands</a></li>
+        <li><a routerLink="../uploadImages">Images</a></li>
+      </ul>
+      <br/><br/>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="alert alert-success" *ngIf="successMsg">{{successMsg}}</div>
+        <form [formGroup]="form" (ngSubmit)="addProduct(form)">
+            <div class="form-group">
+                <input type="text" formControlName="productName" name="productName" placeholder="Product Name" class="form-control"/>
+                <div class="text-danger" style="margin-bottom: 10px;" 
+                    *ngIf="form.controls['productName'].invalid && (form.controls['productName'].touched || form.controls['productName'].dirty)">
+                    <div *ngIf="form.controls['productName'].errors?.required">Product Name is required field</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <select formControlName="categoryName" #categoryName (change)="onCategory($event)" class="form-control" name="categoryName" id="" placeholder="Category">
+                    <option value="">Select Category</option>
+                    <option *ngFor="let category of categories; index as i" [value]="category.id"> {{category.categoryName}}</option>
+                </select>
+                <div class="text-danger" style="margin-bottom: 10px;" 
+                    *ngIf="form.controls['categoryName'].invalid && (form.controls['categoryName'].touched || form.controls['categoryName'].dirty)">
+                    <div *ngIf="form.controls['categoryName'].errors?.required">Category is required field</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <select formControlName="subcategoryName"  class="form-control" name="subcategoryName" id="" placeholder="subcategoryName">
+                    <option value="">Select Sub-category</option>
+                    <option *ngFor="let subCat of subCategories; index as i" [value]="subCat.subcategoryName"> {{ subCat.subcategoryName }}</option>
+                </select>
+                <div class="text-danger" style="margin-bottom: 10px;" 
+                    *ngIf="form.controls['subcategoryName'].invalid && (form.controls['subcategoryName'].touched || form.controls['subcategoryName'].dirty)">
+                    <div *ngIf="form.controls['subcategoryName'].errors?.required">Sub-category is required field</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <select formControlName="brandName" class="form-control" name="brandName" id="">
+                    <option value="">Select Brands</option>
+                    <option *ngFor="let brand of brands; index as i" [value]="brand.brandName">{{ brand.brandName }}</option>
+                </select>
+                <div class="text-danger" style="margin-bottom: 10px;" 
+                    *ngIf="form.controls['brandName'].invalid && (form.controls['brandName'].touched || form.controls['brandName'].dirty)">
+                    <div *ngIf="form.controls['brandName'].errors?.required">Category is required field</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="number"  class="form-control" formControlName="price" name="price" placeholder="Price"/>
+                <div class="text-danger" style="margin-bottom: 10px;" 
+                    *ngIf="form.controls['price'].invalid && (form.controls['price'].touched || form.controls['price'].dirty)">
+                    <div *ngIf="form.controls['price'].errors?.required">Price is required field</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="number"  class="form-control" formControlName="discountPrice" name="discountPrice" placeholder="Discount Price"/>
+            </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Set Feature Image</button> <br/>
+            <img [src]="singleImg" *ngIf="singleImg" style="width: 150px" class="img-thumbnail" />
+            <input type="hidden" [value]="singleImg" formControlName="singleImg" name="singleImg">
+            <br/>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Product Images</button>
+
+            <div class="form-group">
+                <label class="radio-inline"><input type="radio" name="dialog" formControlName="dialog" value="Sale">Sale</label>
+                <label class="radio-inline"><input type="radio" name="dialog" formControlName="dialog" value="New">New</label>
+                <label class="radio-inline"><input type="radio" name="dialog" formControlName="dialog" value="None">None</label>
+            </div>
+            
+            <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+    <div class="col-sm-6"></div>
+</div>
+
+<!-- Add new Product End -->
+</div>
+<br/><br/><br/><br/>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Select Feature Image</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                
+                    <div class="col-sm-3" *ngFor="let image of images">
+                        <input type="radio" name="site" id="{{image.id}}"[value]="image.imgPath" (change)="imageVal($event)" />
+                            <label for="{{image.id}}"><img style="width: 100%;" [src]="image.imgPath" alt="Stack Overflow" />
+                        </label>
+                    </div>
+               
+            </div>
+            <!-- <div class="row">
+                <div class="col-sm-3 allImages" *ngFor="let image of images">
+                    <img [src]="image.imgPath" style="width: 100%;" class="img-thumbnail" alt="Cinque Terre">
+                </div>
+            </div> -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" (click)="singleImage()">Save</button>
+        </div>
+        </div>
+
+    </div>
+    </div>

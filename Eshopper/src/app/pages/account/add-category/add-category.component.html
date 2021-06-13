@@ -1,0 +1,80 @@
+<!-- Add new Category Start -->
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li><a routerLink="../addProduct">Products</a></li>
+        <li class="active"><a routerLink="../addCategory">Categories</a></li>
+        <li><a routerLink="../addBrands">Brands</a></li>
+        <li><a routerLink="../uploadImages">Images</a></li>
+      </ul>
+      <br/><br/>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="alert alert-success" *ngIf="successMsg">{{successMsg}}</div>
+            <form [formGroup]="category1" (ngSubmit)="addMainCategory(category1)">
+                <div class="form-group">
+                    <input type="text" formControlName="categoryName" name="categoryName" placeholder="Category Name" class="form-control"/>
+                    <div class="text-danger" style="margin-bottom: 10px;" 
+                        *ngIf="category1.controls['categoryName'].invalid && (category1.controls['categoryName'].touched || category1.controls['categoryName'].dirty)">
+                        <div *ngIf="category1.controls['categoryName'].errors?.required">Category Name is required field</div>
+                    </div>
+                    <button type="submit" [disabled]="category1.invalid" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+            <form [formGroup]="category" (ngSubmit)="addCategory(category)">
+                <div class="form-group">
+                    <select formControlName="categoryName" #categoryName (change)="getCatValue($event)" class="form-control" name="categoryName" id="" placeholder="Category">
+                        <option value="">Select Category</option>
+                        <option *ngFor="let category of categories; index as i" [value]="category.id"> {{category.categoryName}}</option>
+                    </select>
+                    
+                    <div class="text-danger" style="margin-bottom: 10px;" 
+                        *ngIf="category.controls['categoryName'].invalid && (category.controls['categoryName'].touched || category.controls['categoryName'].dirty)">
+                        <div *ngIf="category.controls['categoryName'].errors?.required">Category is required field</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" formControlName="subcategoryName" name="subcategoryName" placeholder="Sub-category Name" class="form-control"/>
+                    <div class="text-danger" style="margin-bottom: 10px;" 
+                        *ngIf="category.controls['subcategoryName'].invalid && (category.controls['subcategoryName'].touched || category.controls['subcategoryName'].dirty)">
+                        <div *ngIf="category.controls['subcategoryName'].errors?.required">Sub Category Name is required field</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea name="desc" class="form-control" formControlName="desc" name="desc" placeholder="Description" cols="30" rows="10"></textarea>
+                </div>
+                
+                <button type="submit" [disabled]="category.invalid" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let category of categories; index as i">
+                        <td><a style="cursor: pointer;" (click)="getSubCats(category.id)">{{ category.categoryName }}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table" *ngIf="subCat">
+                <thead>
+                    <tr>
+                        <th>Sub Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let subCat of subCategories; index as i">
+                        <td>{{ subCat.subcategoryName }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>
+<br><br><br><br>
+<!-- Add new Category End -->

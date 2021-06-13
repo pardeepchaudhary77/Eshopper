@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+.allImages .deleteimg {
+    position: absolute;
+    left: 43%;
+    right: 50%;
+    bottom: 46%;
+    font-size: 28px;
+    background: #ef3838;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 5px;
+    color: #fff;
+    display: none;
+    cursor: pointer;
+    box-shadow: 0px 3px 10px #000;
+}
+.allImages:hover .deleteimg{
+    display: block;
+}
