@@ -1,0 +1,22 @@
+[
+    {
+        "name":"Products",
+        "url":"addProduct"
+    },
+    {
+        "name":"Categories",
+        "url":"addCategory"
+    },
+    {
+        "name":"Brands",
+        "url":"addBrands"
+    },
+    {
+        "name":"Gallery",
+        "url":"uploadImages"
+    },
+    {
+        "name":"Slider",
+        "url":"slider"
+    }
+]

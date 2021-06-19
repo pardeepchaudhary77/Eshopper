@@ -1,0 +1,106 @@
+<!-- Add new Category Start -->
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li *ngFor="let jsonMenu of jsonMenus"><a routerLink="../{{jsonMenu.url}}">{{ jsonMenu.name }}</a></li>
+    </ul>
+      <br/><br/>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-success" *ngIf="successMsg">{{successMsg}}</div>
+             <form [formGroup]="slider" (ngSubmit)="addSlider(slider)">
+                <div class="form-group">
+                    <input type="text" formControlName="sliderName" name="sliderName" placeholder="Slider Name" class="form-control"/>
+                    <div class="text-danger" style="margin-bottom: 10px;" 
+                        *ngIf="slider.controls['sliderName'].invalid && (slider.controls['sliderName'].touched || slider.controls['sliderName'].dirty)">
+                        <div *ngIf="slider.controls['sliderName'].errors?.required">Slider Name is required field</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <select formControlName="categoryName" #categoryName (change)="getCatValue($event)" class="form-control" name="categoryName" id="" placeholder="Category">
+                        <option value="">Select Category</option>
+                        <option *ngFor="let category of categories; index as i" [value]="category.id"> {{category.categoryName}}</option>
+                    </select>
+                    
+                    <div class="text-danger" style="margin-bottom: 10px;" 
+                        *ngIf="slider.controls['categoryName'].invalid && (slider.controls['categoryName'].touched || slider.controls['categoryName'].dirty)">
+                        <div *ngIf="slider.controls['categoryName'].errors?.required">Category is required field</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <textarea name="desc" class="form-control" formControlName="desc" name="desc" placeholder="Description" cols="30" rows="10"></textarea>
+                    <div class="text-danger" style="margin-bottom: 10px;" 
+                        *ngIf="slider.controls['desc'].invalid && (slider.controls['desc'].touched || slider.controls['desc'].dirty)">
+                        <div *ngIf="slider.controls['desc'].errors?.required">Description is required field</div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Set Feature Image</button> <br/>
+                <!-- <input type="image" *ngIf="singleImg" id="image" formControlName="image" [src]="singleImg" [(ngModel)]="singleImg" style="width: 150px" class="img-thumbnail"> -->
+                <img *ngIf="singleImg" [src]="singleImg" style="width: 150px" class="img-thumbnail" alt="">
+                <input type="hidden" formControlName="image">
+                <br/>
+                
+                <button type="submit" [disabled]="slider.invalid" class="btn btn-primary">Save</button>
+            </form> 
+        </div>
+        <div class="col-sm-7">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Slider</th>
+                        <th>Category</th>
+                        <th>Desc</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let slider of sliders; index as i">
+                        <td>{{ slider.sliderName }}</td>
+                        <td>{{ slider.categoryName }}</td>
+                        <td>{{ slider.desc }}</td>
+                        <td><img [src]="slider.image" style="width: 100px;" alt=""></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>
+<br><br><br><br>
+<!-- Add new Category End -->
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Select Feature Image</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                
+                    <div class="col-sm-3" *ngFor="let image of images">
+                        <input type="radio" name="site" id="{{image.id}}"[value]="image.imgPath" (change)="imageVal($event)" />
+                            <label for="{{image.id}}"><img style="width: 100%;" [src]="image.imgPath" alt="Stack Overflow" />
+                        </label>
+                    </div>
+               
+            </div>
+            <!-- <div class="row">
+                <div class="col-sm-3 allImages" *ngFor="let image of images">
+                    <img [src]="image.imgPath" style="width: 100%;" class="img-thumbnail" alt="Cinque Terre">
+                </div>
+            </div> -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" (click)="singleImage()">Save</button>
+        </div>
+        </div>
+
+    </div>
+    </div>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AddDataService } from 'src/app/services/add-data.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-add-category',
@@ -15,8 +15,12 @@ export class AddCategoryComponent implements OnInit {
   categories: any = []
   subCategories: any = []
   cattext: any
+  jsonMenus: any = []
 
-  constructor(private fb: FormBuilder, private addService: CategoryService, private router: Router) { }
+  constructor(private fb: FormBuilder, 
+              private addService: CategoryService, 
+              private router: Router,
+              private commonService: CommonService) { }
 
   category1 = this.fb.group({
     categoryName: ['', Validators.required]
@@ -29,7 +33,12 @@ export class AddCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategory()
-    
+    this.getJsonMenu()
+  }
+
+  //jsonMenu
+  getJsonMenu(){
+    this.commonService.getMenus().subscribe(data => this.jsonMenus = data)
   }
 
   addMainCategory(category1: any){

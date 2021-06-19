@@ -2,14 +2,11 @@
 <div class="container">
     
     <ul class="nav nav-tabs">
-        <li class="active"><a routerLink="../addProduct">Products</a></li>
-        <li><a routerLink="../addCategory">Categories</a></li>
-        <li><a routerLink="../addBrands">Brands</a></li>
-        <li><a routerLink="../uploadImages">Images</a></li>
-      </ul>
+        <li *ngFor="let jsonMenu of jsonMenus"><a routerLink="../{{jsonMenu.url}}">{{ jsonMenu.name }}</a></li>
+    </ul>
       <br/><br/>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <div class="alert alert-success" *ngIf="successMsg">{{successMsg}}</div>
         <form [formGroup]="form" (ngSubmit)="addProduct(form)">
             <div class="form-group">
@@ -30,9 +27,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <select formControlName="subcategoryName"  class="form-control" name="subcategoryName" id="" placeholder="subcategoryName">
+                <select formControlName="subcategoryName" class="form-control" (change)="onSubCategory($event)" name="subcategoryName" id="" placeholder="subcategoryName">
                     <option value="">Select Sub-category</option>
-                    <option *ngFor="let subCat of subCategories; index as i" [value]="subCat.subcategoryName"> {{ subCat.subcategoryName }}</option>
+                    <option *ngFor="let subCat of subCategories; index as i" [value]="subCat.id"> {{ subCat.subcategoryName }}</option>
                 </select>
                 <div class="text-danger" style="margin-bottom: 10px;" 
                     *ngIf="form.controls['subcategoryName'].invalid && (form.controls['subcategoryName'].touched || form.controls['subcategoryName'].dirty)">
@@ -40,9 +37,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <select formControlName="brandName" class="form-control" name="brandName" id="">
+                <select formControlName="brandName" class="form-control" (change)="onBrands($event)" name="brandName" id="">
                     <option value="">Select Brands</option>
-                    <option *ngFor="let brand of brands; index as i" [value]="brand.brandName">{{ brand.brandName }}</option>
+                    <option *ngFor="let brand of brands; index as i" [value]="brand.id">{{ brand.brandName }}</option>
                 </select>
                 <div class="text-danger" style="margin-bottom: 10px;" 
                     *ngIf="form.controls['brandName'].invalid && (form.controls['brandName'].touched || form.controls['brandName'].dirty)">
@@ -57,13 +54,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="number"  class="form-control" formControlName="discountPrice" name="discountPrice" placeholder="Discount Price"/>
+                <input type="number" class="form-control" formControlName="discountPrice" name="discountPrice" placeholder="Discount Price"/>
             </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Set Feature Image</button> <br/>
-            <img [src]="singleImg" *ngIf="singleImg" style="width: 150px" class="img-thumbnail" />
-            <input type="hidden" [value]="singleImg" formControlName="singleImg" name="singleImg">
+            <!-- <input type="image" *ngIf="singleImg" id="image" formControlName="image" [src]="singleImg" [(ngModel)]="singleImg" style="width: 150px" class="img-thumbnail"> -->
+            <img *ngIf="singleImg" [src]="singleImg" style="width: 150px" class="img-thumbnail" alt="">
+            <input type="hidden" formControlName="image">
             <br/>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Product Images</button>
 
             <div class="form-group">
                 <label class="radio-inline"><input type="radio" name="dialog" formControlName="dialog" value="Sale">Sale</label>
@@ -74,7 +71,95 @@
             <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Save</button>
         </form>
     </div>
-    <div class="col-sm-6"></div>
+    <div class="col-sm-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Sub-category</th>
+                    <th>Brand</th>
+                    <th>Dialog</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Display Image</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="products.length === 0">
+                    <td><div class="alert alert-danger">No Data Found</div></td>
+                </tr>
+                <tr *ngFor="let product of products; index as i">
+                    <td>{{ product.productName }}</td>
+                    <td>{{ product.categoryName }}</td>
+                    <td>{{ product.subcategoryName }}</td>
+                    <td>{{ product.brandName }}</td>
+                    <td>{{ product.dialog }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.discountPrice }}</td>
+                    <td><img [src]="product.singleImg" style="width: 50px;" alt=""></td>
+                    <td><a data-toggle="modal" data-target="#myModal2" (click)="getProductId(product.id)"><i class="fa fa-plus-square" title="Add More Images"></i></a>
+                        <div id="myModal2" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                        
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">{{ product.productName }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="nav nav-pills">
+                                        <li [class.active]="changeMode == 'select'"><a style="cursor: pointer;" (click)="changeMode = 'select'">Select Images</a></li>
+                                        <li [class.active]="changeMode == 'uploaded'"><a style="cursor: pointer;" (click)="changeMode = 'uploaded'">Uploaded</a></li>
+                                    </ul>
+                                    <div [ngSwitch]="changeMode">
+                                        <div *ngSwitchCase="'select'">
+                                            <!-- <form [formGroup]="imageForm" (ngSubmit)="multipleImages(imageForm)"> -->
+                                                <div class="row" >
+                                                    <div class="col-sm-3" *ngFor="let image of images; let z=index">
+                                                        
+                                                            <input type="checkbox" id="checkbox_{{image.id}}" (change)="onCheckboxChange($event)" [value]="image.imgPath" />
+                                                                    <label for="checkbox_{{image.id}}"><img style="width: 100%;" [src]="image.imgPath" alt="Stack Overflow" />
+                                                                </label>
+                                                            
+                                                        
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <button type="submit" style="float: right;" 
+                                                        class="btn btn-success">Save</button>
+                                                    </div>
+                                                </div>
+                                            <!-- </form> -->
+                                            
+                                        </div>
+                                        <div class="row" *ngSwitchCase="'uploaded'">
+                                            <div *ngFor="let images of imagesAll; index as arr" class="col-sm-4">
+                                                <img [src]="images.imgPath" style="width: 100%;" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- <div class="row">
+                                        <div class="col-sm-3 allImages" *ngFor="let image of images">
+                                            <img [src]="image.imgPath" style="width: 100%;" class="img-thumbnail" alt="Cinque Terre">
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    
+                                </div>
+                                </div>
+                        
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Add new Product End -->
@@ -114,3 +199,5 @@
 
     </div>
     </div>
+
+    

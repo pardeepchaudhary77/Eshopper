@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="features_items"><!--features_items-->
+        <h2 class="title text-center" *ngIf="brand">Brand Name:- {{brand.brandName}}</h2>
+        <div class="col-sm-4" style="height: 450px;" *ngFor="let product of getProductBrand; index as i">
+            <div class="product-image-wrapper">
+                <div class="single-products">
+                        <div class="productinfo text-center">
+                            <div class="dataImage" style="background-image: url({{product.singleImg}});"></div>
+                            <h4><del>{{ product.price | currency:'USD' }}</del> &nbsp;&nbsp;
+                                <ins>{{ product.discountPrice | currency:'USD' }}</ins></h4>
+                            <p><a [routerLink]="['/product/' + product.id]">{{ product.productName }}</a></p>
+                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        </div>
+                        <img *ngIf="product.dialog === 'New'" src="./../../../assets/images/home/new.png" class="new" alt="">
+                        <img *ngIf="product.dialog === 'Sale'" src="./../../../assets/images/home/sale.png" class="new" alt="">
+                </div>
+                <div class="choose">
+                    <ul class="nav nav-pills nav-justified">
+                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div><!--features_items-->
+</div>
+
+<br/><br/><br/>

@@ -1,0 +1,58 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{product.productName | titlecase}}</li>
+        </ol>
+      </nav>
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div *ngFor="let images of imagesAll; index as arr">
+                        <input type="image" class="collectionImg" [value]="images.imgPath" [src]="images.imgPath" (click)="changeImage($event)" style="width: 100%;" alt="">
+                    </div>
+                </div>
+                <div class="col-sm-10" style="border: 2px solid #ebebeb; text-align: center;">
+                    <img *ngIf="imagesAll <= 0" src="{{product.singleImg}}" style="width: 60%;" />
+                    <img *ngIf="imagesAll" [src]="changeImageResult" style="width: 60%" />
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="col-sm-5">
+            <h3 class="card-title">{{product.productName | uppercase}}</h3>
+            <p class="card-text"><b>Price: </b> <del>{{ product.price | currency:'USD' }}</del> &nbsp;&nbsp;
+                <ins>{{ product.discountPrice | currency:'USD' }}</ins></p>
+            <p class="card-text"><b>Category:</b> {{product.subcategoryName}}</p>
+            <p><input type="number" style="width: 30%;" class="form-control" placeholder="Amount (kg)"></p>
+            <button class="btn btn-primary">Add to Cart</button>
+            <br/><br/><br/>
+            <h4>Description</h4>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Name</th><td>{{ product.productName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Category</th><td>{{ product.categoryName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sub-category</th><td>{{ product.subcategoryName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Brand</th><td>{{ product.brandName }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+        <br/><br/><br/>
+        <div class="col-sm-12 d-flex justify-content-end">
+            <a routerLink="/" class="btn  btn-primary">Back</a>
+        </div>
+    </div>
+    
+</div>
+<br/><br/><br/>

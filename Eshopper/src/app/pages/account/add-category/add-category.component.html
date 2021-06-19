@@ -1,11 +1,8 @@
 <!-- Add new Category Start -->
 <div class="container">
     <ul class="nav nav-tabs">
-        <li><a routerLink="../addProduct">Products</a></li>
-        <li class="active"><a routerLink="../addCategory">Categories</a></li>
-        <li><a routerLink="../addBrands">Brands</a></li>
-        <li><a routerLink="../uploadImages">Images</a></li>
-      </ul>
+        <li *ngFor="let jsonMenu of jsonMenus"><a routerLink="../{{jsonMenu.url}}">{{ jsonMenu.name }}</a></li>
+    </ul>
       <br/><br/>
     <div class="row">
         <div class="col-sm-6">

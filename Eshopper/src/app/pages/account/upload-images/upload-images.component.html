@@ -1,11 +1,8 @@
 
 <div class="container">
     <ul class="nav nav-tabs">
-        <li><a routerLink="../addProduct">Products</a></li>
-        <li><a routerLink="../addCategory">Categories</a></li>
-        <li><a routerLink="../addBrands">Brands</a></li>
-        <li class="active"><a routerLink="../uploadImages">Images</a></li>
-      </ul>
+        <li *ngFor="let jsonMenu of jsonMenus"><a routerLink="../{{jsonMenu.url}}">{{ jsonMenu.name }}</a></li>
+    </ul>
       <br/><br/>
     <form [formGroup]="form" class="row">
         <div class="form-group col-sm-6">

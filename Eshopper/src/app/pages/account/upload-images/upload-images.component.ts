@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { CommonService } from 'src/app/services/common.service';
 import { UploadsService } from 'src/app/services/uploads.service';
 
 @Component({
@@ -10,8 +11,9 @@ export class UploadImagesComponent implements OnInit {
 
   selectFile: any = []
   images: any = []
+  jsonMenus: any = []
 
-  constructor(private fb: FormBuilder, private uploadService: UploadsService) { }
+  constructor(private fb: FormBuilder, private uploadService: UploadsService, private commonService: CommonService) { }
 
   form = this.fb.group({
     image:['', Validators.required]
@@ -26,6 +28,13 @@ export class UploadImagesComponent implements OnInit {
         }
       })
     })
+
+    this.getJsonMenu()
+  }
+
+  //jsonMenu
+  getJsonMenu(){
+    this.commonService.getMenus().subscribe(data => this.jsonMenus = data)
   }
 
   uploadFile(event: any){

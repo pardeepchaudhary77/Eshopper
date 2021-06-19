@@ -19,3 +19,20 @@
 .allImages:hover .deleteimg{
     display: block;
 }
+
+.dataImage{
+    background-size: cover;
+    height: 250px;
+}
+del{
+    color: gray;
+}
+ins{
+    color: green;
+}
+.collectionImg{
+    border: 2px solid #ebebeb;
+    border-radius: 3px;
+    padding: 5px;
+    margin-bottom: 1rem;
+}
